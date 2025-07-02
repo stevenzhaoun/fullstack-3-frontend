@@ -5,6 +5,7 @@ import { useEffect, useState } from "react"; // React Hooks
 import { listUsers } from "../../api/users.api";
 import type { Role, User } from "../../types";
 import { useNavigate } from "react-router";
+import useDataLoad from "../../hooks/useDataLoad";
 
 
 const columns: GridColDef[] = [
@@ -28,22 +29,10 @@ const columns: GridColDef[] = [
 ];
 
 export default function ListUsers() {
-    const [users, setUsers] = useState<User[]>([])
-    const [isLoading, setIsLoading] = useState(false)
     const navigate = useNavigate()
-
-    useEffect(() => {
-        const fetchData = async () => {
-            setIsLoading(true)
-            const users = await listUsers()
-            setUsers(users)
-            setIsLoading(false)
-        }
-        fetchData()
-    }, [])
+    const { data: users, isLoading } = useDataLoad(listUsers)
 
     const handleAddUser = () => {
-        console.log('Add User')
         navigate('/users/add')
     }
 
@@ -57,9 +46,10 @@ export default function ListUsers() {
             <Button variant="contained" color="primary" onClick={handleAddUser}>Add User</Button>
         </Box>
         <DataGrid
-            rows={users}
+            rows={users || []}
             columns={columns}
             disableRowSelectionOnClick
+            
             onRowClick={(row) => {
                 navigate(`/users/${row.id}`)
             }}

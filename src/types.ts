@@ -9,4 +9,10 @@ export type User = {
 export type Role = {
     id: number;
     name: string;
+    permissions?: Permission[];
+}
+
+export type Permission = {
+    id: number;
+    name: string;
 }

@@ -1,10 +1,10 @@
 import { Box, CircularProgress, InputLabel, FormControl, MenuItem, Select, TextField, Typography, type SelectChangeEvent, Button, } from "@mui/material";
-import type { Role } from "../../types";
 import { useState, useEffect } from "react";
 import { listRoles } from "../../api/roles.api";
 import { createUser, getUser, updateUser } from "../../api/users.api";
 import { useNavigate, useParams } from "react-router";
 import Snackbar, { type SnackbarOrigin } from '@mui/material/Snackbar';
+import useDataLoad from "../../hooks/useDataLoad";
 
 interface State extends SnackbarOrigin {
     open: boolean;
@@ -24,6 +24,9 @@ export default function CreateOrUpdateUser() {
         vertical: 'top',
         horizontal: 'center',
     });
+
+    const {data: roles, isLoading: isRolesLoading} = useDataLoad(listRoles)
+
     const { vertical, horizontal, open } = snackbarState;
 
     const isAdd = params.userId === 'add'
@@ -40,8 +43,6 @@ export default function CreateOrUpdateUser() {
         role_id?: number
     })
 
-    const [roles, setRoles] = useState<Role[]>([])
-
     const handleSnackbarClose = () => {
         setSnackbarState({ ...snackbarState, open: false });
     };
@@ -53,9 +54,6 @@ export default function CreateOrUpdateUser() {
     useEffect(() => {
         setIsLoading(true)
         const fetchData = async () => {
-            const roles = await listRoles()
-            console.log(roles)
-            setRoles(roles)
             if (!isAdd) {
                 const user = await getUser(params.userId as string)
                 setUser({
@@ -101,7 +99,7 @@ export default function CreateOrUpdateUser() {
 
     }
 
-    if (isLoading) {
+    if (isLoading || isRolesLoading) {
         return <CircularProgress />
     }
 
@@ -122,7 +120,7 @@ export default function CreateOrUpdateUser() {
                     onChange={handleSelectChange}
                     required
                 >
-                    {roles.map(role => {
+                    {(roles || []).map(role => {
                         return <MenuItem key={role.id} value={role.id}>{role.name}</MenuItem>
                     })}
                 </Select>
