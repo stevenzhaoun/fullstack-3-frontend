@@ -1,5 +1,6 @@
 import Layout from './components/Layout'
 import { Routes, Route } from 'react-router'
+import ListUsers from './modules/users/ListUsers'
 
 function Dashboard() {
   return <div>Dashboard</div>
@@ -20,7 +21,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Layout />} >
           <Route path="dashboard" element={<Dashboard />} />
-          <Route path="users" element={<Users />} />
+          <Route path="users" element={<ListUsers />} />
           <Route path="roles" element={<Roles />} />
         </Route>
       </Routes>
