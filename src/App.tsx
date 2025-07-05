@@ -6,12 +6,8 @@ import ListRoles from './modules/roles/ListRoles'
 import Login from './components/Login'
 import UserContext from './context/userContext'
 import { useState } from 'react'
-import useInitialLoading from './hooks/useInitialLoading'
 import RootContainer from './modules/RootContainer'
-
-function Dashboard() {
-  return <div>Dashboard</div>
-}
+import Dashboard from './modules/dashboard/Dashboard'
 
 function Products() {
   return <div>Products</div>
