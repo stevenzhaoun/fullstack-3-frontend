@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const client = axios.create({
-    baseURL: 'http://localhost:8888',
+    baseURL: 'https://fullstack-3-backend-1.onrender.com',
 })
 
 export default client;
