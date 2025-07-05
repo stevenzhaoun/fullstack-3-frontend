@@ -30,7 +30,7 @@ const columns: GridColDef[] = [
 
 export default function ListUsers() {
     const navigate = useNavigate()
-    const { data: users, isLoading } = useDataLoad(listUsers)
+    const { data: users, isLoading, error } = useDataLoad(listUsers)
 
     const handleAddUser = () => {
         navigate('/users/add')
@@ -38,6 +38,10 @@ export default function ListUsers() {
 
     if(isLoading) {
         return <CircularProgress />
+    }
+
+    if(error) {
+        return <Typography variant="h6" color="error">Something went wrong</Typography>
     }
 
     return <Box>

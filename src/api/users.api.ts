@@ -20,3 +20,13 @@ export const updateUser = async (userId: string, user: any): Promise<User> => {
     const response = await client.put(`/users/${userId}`, user)
     return response.data
 }
+
+export const login = async(email: string, password: string) => {
+    const body = {
+        email: email,
+        password: password
+    }
+    const response = await client.post('/login', body)
+    console.log(response.data)
+    return response.data
+}
